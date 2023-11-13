@@ -1,8 +1,9 @@
 const Koa = require('koa');
-const koaBody = require('koa-body');
+const { koaBody } = require('koa-body');
 const cors = require('@koa/cors');
+const cheerio = require('cheerio');
 const fs = require('fs');
-const log4js = require('koa-log4')
+const log4js = require('koa-log4');
 
 const infoLogger = log4js.getLogger('info');
 infoLogger.level = 'info';
@@ -23,28 +24,34 @@ app.use(async ctx => {
   }
   ctx.set('Content-Type', 'application/json; charset=utf-8');
   const filesKeys = Object.keys(files);
-  let totalCount = 0;
-  const fileList = [];
-  const funList = [];
-  for(let i = 0; i < filesKeys.length; i++){
-    const fileKey = filesKeys[i];
-    const fileName = files[fileKey].name;
-    const filePath = files[fileKey].path;
-    const fileType = files[fileKey].type;
-    const file = fs.readFileSync(filePath);
-    const count = await countText(file, fileType, option);
+  const fileKey = filesKeys[0];
+  const filePath = files[fileKey].filepath;
+  const file = fs.readFileSync(filePath, 'utf8');
 
-    totalCount+= count;
-    fileList.push(fileName);
+  //Use cherrio to loading the content
+  const $ = cheerio.load(file);
+
+  const msgLists = $('.msg-item');
+  const msgResults = [];
+  for(let i = 0; i < msgLists.length; i++){
+    const msg = $(msgLists[i]);
+    const question = $(msg).find('.msg-input').text();
+    const answer = $(msg).find('.answer-text').text();
+    const msgResult = {
+      question,
+      answer
+    };
+    msgResults.unshift(msgResult);
   }
+
   ctx.body = JSON.stringify(
-    { files: fileList,
-      totalCount,
+    {
+      result: msgResults,
     }
   );
 });
 
 
 app.listen(8000, () => {
-  infoLogger.info('Word Count API is now running on port 8000 ∠( ᐛ 」∠)＿');
+  infoLogger.info('Export AI Chat API is now running on port 8000 ∠( ᐛ 」∠)＿');
 });
