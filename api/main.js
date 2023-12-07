@@ -23,6 +23,8 @@ app.use(async ctx => {
     return;
   }
   ctx.set('Content-Type', 'application/json; charset=utf-8');
+  console.log(files);
+  
   const filesKeys = Object.keys(files);
   const fileKey = filesKeys[0];
   const filePath = files[fileKey].filepath;

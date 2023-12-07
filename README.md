@@ -1,29 +1,4 @@
-# ai-chat-export-ui
+# AI Chat Export Tool
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+用於匯出悬河AI聊天機器人記錄的工具，原理是人手儲存HTML檔案後再以整理成更適合閱讀和備份的文字格式，但由於現在網站已經改用Javascript加載內容的關係已經不能再這樣做了。
+油猴版本制作中...
